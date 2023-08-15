@@ -11,6 +11,7 @@ if(!isset($_SESSION['username'])){
     <title>change this</title>
     <meta charset="UTF-16" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -24,16 +25,14 @@ if(!isset($_SESSION['username'])){
             <li><a href="/">study</a></li>
             <li><a href="/">link 2</a></li>
             <li><a href="/">link 3</a></li>
-            <div class="dropdown">
-            <button class="dropdown"><?php echo $_SESSION['username']; ?>
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                <a href="logout.php">LOGOUT</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
-        </div> 
+            <li class="dropdown">
+                <span class="dropbtn"><?php echo $_SESSION['username']; ?>
+                    <i class="fa fa-caret-down"></i>
+                </span>
+                <div class="dropdown-content">
+                    <a href="logout.php">LOGOUT</a> 
+                </div>
+            </li> 
         </ul>
     </nav>
 </header>

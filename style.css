@@ -29,86 +29,85 @@ body {
 
 /*nav bar*/
 
+
 header {
     width: 100%;
     z-index: 2;
 }
 
 nav {
-    display: flex; 
-    justify-content: space-between; 
-    padding: 2rem 1rem; 
     width: 100%;
+    box-shadow: 0 2px 4px 0 #050a1042;  
     position: fixed;
     z-index: inherit;
-    height: 2rem;
 }
-    
+
 .navbar {
     font-family: monospace, monospace;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #AED7F4;
     top: 0;
-    background-color: #AED7F4; 
+    flex-direction: row;
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-    text-align: center; 
-    overflow: hidden;
-}
-  
 nav li {
-    padding-left: 1rem;     
     list-style: none;
+    display:inline-block;
 }
 
-nav a {
-    text-decoration: none;
-    color: #562C2C;
-}
-
-.user {/**add a box around the username*/}
-
-.dropdown {
-    float: left;
+.nav_links {
     overflow: hidden;
 }
 
-.dropdown .dropbtn {
-    font-size: 16px;  
-    border: none;
-    outline: none;
-    color: white;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-  }
+.nav_links a {
+    color: #361C1C;
+}
+
+
+li a, .dropbtn {
+  display: inline-block;
+  color: #361C1C;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+li.dropdown {
+  display: inline-block;
+}
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px #00000033;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
 /*footer*/
 footer {
-    background-color: #281515;
+    background-color: #1B0E0E;
     color: #FFFFC7;
     padding: 20px;
     width: 100%;
@@ -119,17 +118,3 @@ footer {
 footer p {
     margin: 0;
 }
-  
-@media only screen and (max-width: 600px) {
-    nav {
-      flex-direction: column;
-    }
-    nav ul {
-      flex-direction: column;
-      padding-top: 0.5rem;
-    }
-    nav li {
-      padding: 0.5rem 0;
-    }
-  } 
-  
