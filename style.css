@@ -105,6 +105,11 @@ li.dropdown {
   display: block;
 }
 
+form {
+  all: unset;
+}
+
+
 /*footer*/
 footer {
     background-color: #1B0E0E;

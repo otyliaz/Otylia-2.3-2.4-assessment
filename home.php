@@ -40,7 +40,9 @@ if(!isset($_SESSION['username'])){
 <div class="content">
     <h2>cool catchphrase</h2>
     <p>sub-heading start now </p>
-    <a href="/">LETS GO - button</a>
+
+    <!--log in to get started please, they can't do anything without logging in-->
+    <a href="/main.php">LETS GO - button</a>
 </div>
 
 <footer>

@@ -17,9 +17,8 @@ session_start()
 //require_once("connect.inc");
 require_once("connlocal.inc");
 
-if(isset($_SESSION['username'])){
-    echo $_SESSION['username'];
-}
+//if(isset($_SESSION['username'])){
+  //  echo $_SESSION['username'];}
 
 //var_dump($_SERVER['REQUEST_METHOD']);
 if(isset($_GET['login'])) { //change to POST!!!
