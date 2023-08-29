@@ -17,9 +17,6 @@ session_start()
 //require_once("connect.inc");
 require_once("connlocal.inc");
 
-//if(isset($_SESSION['username'])){
-  //  echo $_SESSION['username'];}
-
 //var_dump($_SERVER['REQUEST_METHOD']);
 if(isset($_GET['login'])) { //change to POST!!!
         
@@ -33,10 +30,17 @@ if(isset($_GET['login'])) { //change to POST!!!
 
     $result= @mysqli_query ($conn, $query);
 
-    $count = mysqli_num_rows($result);
-
-    if ($count == 1) {
+    if (mysqli_num_rows($result) == 1) {
         echo $username . ', you are logged in.';
+
+        //fetches the results from the query
+        $row = mysqli_fetch_assoc($result);
+
+        // sets iduser as a session variable
+        $iduser = $row["iduser"];
+        $_SESSION['iduser'] = $iduser;
+
+        //sets username as a session variable
         $_SESSION['username'] = $username;
         header("Location: home.php");
     }

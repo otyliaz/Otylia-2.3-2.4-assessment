@@ -16,48 +16,70 @@ require_once("connlocal.inc");
 
 //var_dump($_SERVER['REQUEST_METHOD']);
 if(isset($_GET['register'])) { //change to POST!!!
-    
-    if($_GET['password']==$_GET['confirm']) {
-       // echo '<p>passwords match</p>' ;
+
+    $name = $_GET['name'];
+    $password = $_GET['password'];
+    $email = $_GET['email'];
+    $age = $_GET['age'];
+
+    $select = "SELECT `username` FROM users WHERE `username`= '$name'";
+    //result 
+    $r1= @mysqli_query ($conn, $select);
+
+    if (mysqli_num_rows($r1)) {
+        $nametaken = 'username already taken. choose another one.';}    
         
-        $name = $_GET['name'];
-        $password = $_GET['password'];
-        $email = $_GET['email'];
-        $age = $_GET['age'];
-
-        $passworden = hash('sha256', $password);
-
-        $query="INSERT INTO `users` (`username`, `password`, `email`, `age`) VALUES ('$name', '$passworden', '$email', '$age')"; 
-
-        $result= @mysqli_query ($conn, $query);
-
-        header("Location: login.php");
-
-        //echo $query;
-        //var_dump($result);
-        //if ($result) {
-        //    echo '<p>added 👍</p>' ;}
-        //else {
-        //    echo "<p>didn't work 😕</p>";} 
-        }
-
     else {
-        echo "<p>Your passwords don't match, please try again...</p>";
+        //echo 'you are unique.';
+    
+        if($_GET['password']==$_GET['confirm'] ) {
+            // echo '<p>passwords match</p>' ;
+    
+                $passworden = hash('sha256', $password);
+    
+                $query="INSERT INTO `users` (`username`, `password`, `email`, `age`) VALUES ('$name', '$passworden', '$email', '$age')"; 
+    
+                $result= @mysqli_query ($conn, $query);
+    
+                header("Location: login.php");
+    
+                //echo $query;
+                //var_dump($result);
+                //if ($result) {
+                //    echo '<p>added 👍</p>' ;}
+                //else {
+                //    echo "<p>didn't work 😕</p>";} 
+                }
+    
+            else {
+                $confirmerror = "Your passwords don't match, please try again...";
+                }
         }
 }
 ?>
 
 <h2>sign up</h2>
+
+<p>already have an account? click <a href="/login.php">here</a> to login</p>
 <div class="form">
 <form action="register.php" method="get"> <!-- change to post-->
     <label for="name">username:</label><br>
-    <input type="text" name="name" id="name" placeholder="Type here..." required> 
-    <br>
-    <!-- this username is already taken-->
+    <input type="text" name="name" id="name" placeholder="Type here..." required> <br>
+    <!-- if the username already exists, then print the error-->
+    <?php if (isset($nametaken)) {
+        echo '<p class="error">' . $nametaken . '</p>';}
+    ?>
+
     <label for="password">password:</label><br>
     <input type="password" name="password" id="password" placeholder="Type here..." minlength="8" required> <br>
     <label for="confirm">re-type passsword:</label><br>
-    <input type="password" name="confirm" id="confirm" placeholder="Type here..." minlength="8" required> <br>
+    <input type="password" name="confirm" id="confirm" placeholder="Type here..." minlength="8" required> 
+    <!-- if the passwords don't match, then print the error-->
+    <?php if (isset($confirmerror)) {
+        echo '<p class="error">' . $confirmerror . '</p>';}
+    ?>
+    <br>
+    
     <label for="email">email:</label><br>
     <input type="email" name="email" id="email" placeholder="Type here..."  required> <br>
     <label for="age">age</label><br>

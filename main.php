@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['username'])){
+   header("Location: login.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>  
@@ -20,7 +27,7 @@ $result= @mysqli_query ($conn, $query);
 if(isset($_GET['submit']))  {
     $language = $_GET['languages'];
 
-    $insert="INSERT INTO `users` (`username`, `password`, `email`, `age`) VALUES ('$name', '$passworden', '$email', '$age')"; 
+    $insert="INSERT INTO `users_languages` (`userid`, `password`, `email`, `age`) VALUES ('$name', '$passworden', '$email', '$age')"; 
 
     $inserted= @mysqli_query ($conn, $insert);
 }
@@ -29,7 +36,7 @@ if(isset($_GET['submit']))  {
 <h2>heading</h2>
 <div class="form">
 <form action="main.php" method="get">
-    <label for="languages">Choose your browser from the list:</label><br>
+    <label for="languages">Choose your language from the list:</label><br>
     <input type="text" list="languages" placeholder="Type here...">
         <datalist id="languages">
         <?php
@@ -39,6 +46,8 @@ if(isset($_GET['submit']))  {
         </datalist>
     <input type="submit"  name="submit" value="get started!"> 
 </form>
+
+<!--or add a new language -->
 </div>
 
 
