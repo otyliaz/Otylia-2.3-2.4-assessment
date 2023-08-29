@@ -1,10 +1,10 @@
 <?php
 session_start();
-if(!isset($_SESSION['username'])){
+if(!isset($_SESSION['iduser'])){
    header("Location: login.php");
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>  
@@ -43,6 +43,7 @@ if(!isset($_SESSION['username'])){
 
     <!--log in to get started please, they can't do anything without logging in-->
     <a href="/main.php">LETS GO - button</a>
+
 </div>
 
 <footer>
