@@ -18,6 +18,8 @@ if(!isset($_SESSION['username'])){
 <!--basically they can collate some vocab lists, that can be shared with other people -->
 
 <?php 
+include_once("nav.php");
+
 //require_once("connect.inc");
 require_once("connlocal.inc");
 
@@ -27,29 +29,29 @@ $result= @mysqli_query ($conn, $query);
 if(isset($_GET['submit']))  {
     $language = $_GET['languages'];
 
-    $insert="INSERT INTO `users_languages` (`userid`, `password`, `email`, `age`) VALUES ('$name', '$passworden', '$email', '$age')"; 
+    $insert="INSERT INTO `users_languages` (`userid`, `language`) VALUES ('$name', '$passworden', '$email', '$age')"; 
 
     $inserted= @mysqli_query ($conn, $insert);
 }
 ?>
 
+<div class="content">
 <h2>heading</h2>
-<div class="form">
-<form action="main.php" method="get">
-    <label for="languages">Choose your language from the list:</label><br>
-    <input type="text" list="languages" placeholder="Type here...">
-        <datalist id="languages">
-        <?php
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        echo ' <option value="' . $row['language'] . '">'   ;}
-        ?>
-        </datalist>
-    <input type="submit"  name="submit" value="get started!"> 
-</form>
-
-<!--or add a new language -->
+    <div class="form">
+    <form action="main.php" method="get">
+        <label for="languages">Choose your language from the list:</label><br>
+        <input type="text" list="languages" placeholder="Type here...">
+            <datalist id="languages">
+            <?php
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            echo ' <option value="' . $row['language'] . '">'   ;}
+            ?>
+            </datalist>
+        <input type="submit"  name="submit" value="get started!"> 
+    </form>
+    <!--or add a new language -->
+    </div>
 </div>
-
 
 <footer>
     <div class="container">

@@ -51,6 +51,9 @@ if(isset($_GET['login'])) { //change to POST!!!
 ?>
 
 <h2>login</h2>
+
+<p>don't have an account? click <a href="/register.php">here</a> to create one!</p>
+
 <div class="form">
 <form action="login.php" method="get"> <!-- change to post-->
     <label for="username">username:</label><br>
