@@ -4,7 +4,7 @@ if(!isset($_SESSION['iduser'])){
    header("Location: login.php");
 }
 ?>
-
+<!--remember TO SANITIZE INPUTS-->
 <!DOCTYPE html>
 <html lang="en">
 <head>  

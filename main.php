@@ -23,15 +23,23 @@ include_once("nav.php");
 //require_once("connect.inc");
 require_once("connlocal.inc");
 
-$query="SELECT `language` FROM languages ORDER BY `family`, `sub-family` ASC"; 
+$query="SELECT `idlanguage`, `language` FROM languages ORDER BY `family`, `sub-family` ASC"; 
 $result= @mysqli_query ($conn, $query);
+
+$iduser = $_SESSION['iduser'];
 
 if(isset($_GET['submit']))  {
     $language = $_GET['languages'];
 
-    $insert="INSERT INTO `users_languages` (`userid`, `language`) VALUES ('$name', '$passworden', '$email', '$age')"; 
+    $q_idlanguage = "SELECT `idlanguage` FROM languages WHERE `language` = '$language'";
+    $r_idlanguage = @mysqli_query($conn, $q_idlanguage);
+    
+    if ($r_idlanguage && $row = mysqli_fetch_assoc($r_idlanguage)) { 
+        $idlanguage = $row['idlanguage'];
+        $insert="INSERT INTO `user_languages` (`iduser`, `idlanguage`) VALUES ('$iduser', '$idlanguage')";
 
-    $inserted= @mysqli_query ($conn, $insert);
+        $inserted= @mysqli_query ($conn, $insert);
+    } 
 }
 ?>
 
@@ -40,7 +48,8 @@ if(isset($_GET['submit']))  {
     <div class="form">
     <form action="main.php" method="get">
         <label for="languages">Choose your language from the list:</label><br>
-        <input type="text" list="languages" placeholder="Type here...">
+        <input type="text" list="languages" name="languages" placeholder="Type here...">
+        <!--try and validate the input, maybe use a select thing instead-->
             <datalist id="languages">
             <?php
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {

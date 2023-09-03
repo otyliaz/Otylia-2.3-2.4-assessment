@@ -15,12 +15,12 @@
 require_once("connlocal.inc");
 
 //var_dump($_SERVER['REQUEST_METHOD']);
-if(isset($_GET['register'])) { //change to POST!!!
+if(isset($_POST['register'])) { //change to POST!!!
 
-    $name = $_GET['name'];
-    $password = $_GET['password'];
-    $email = $_GET['email'];
-    $age = $_GET['age'];
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $age = $_POST['age'];
 
     $select = "SELECT `username` FROM users WHERE `username`= '$name'";
     //result 
@@ -32,14 +32,14 @@ if(isset($_GET['register'])) { //change to POST!!!
     else {
         //echo 'you are unique.';
     
-        if($_GET['password']==$_GET['confirm'] ) {
+        if($_POST['password']==$_POST['confirm'] ) {
             // echo '<p>passwords match</p>' ;
     
                 $passworden = hash('sha256', $password);
     
                 $query="INSERT INTO `users` (`username`, `password`, `email`, `age`) VALUES ('$name', '$passworden', '$email', '$age')"; 
     
-                $result= @mysqli_query ($conn, $query);
+                //$result= @mysqli_query ($conn, $query);
     
                 header("Location: login.php");
     
@@ -62,7 +62,7 @@ if(isset($_GET['register'])) { //change to POST!!!
 
 <p>already have an account? click <a href="/login.php">here</a> to login</p>
 <div class="form">
-<form action="register.php" method="get"> <!-- change to post-->
+<form action="register.php" method="post"> 
     <label for="name">username:</label><br>
     <input type="text" name="name" id="name" placeholder="Type here..." required> <br>
     <!-- if the username already exists, then print the error-->

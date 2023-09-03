@@ -18,10 +18,10 @@ session_start()
 require_once("connlocal.inc");
 
 //var_dump($_SERVER['REQUEST_METHOD']);
-if(isset($_GET['login'])) { //change to POST!!!
+if(isset($_POST['login'])) { //change to POST!!!
         
-    $username = $_GET['username'];
-    $password = $_GET['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
     $passworden = hash('sha256', $password);
 
@@ -55,7 +55,7 @@ if(isset($_GET['login'])) { //change to POST!!!
 <p>don't have an account? click <a href="/register.php">here</a> to create one!</p>
 
 <div class="form">
-<form action="login.php" method="get"> <!-- change to post-->
+<form action="login.php" method="post"> <!-- change to post-->
     <label for="username">username:</label><br>
     <input type="text" name="username" id="username" placeholder="Type here..." required> 
     <br>
