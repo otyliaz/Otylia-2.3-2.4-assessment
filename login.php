@@ -10,15 +10,13 @@ session_start()
     <link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
-<body>
-    <h1>login page</h1>
 
 <?php 
-//require_once("connect.inc");
+//#####require_once("connect.inc");
 require_once("connlocal.inc");
 
 //var_dump($_SERVER['REQUEST_METHOD']);
-if(isset($_POST['login'])) { //change to POST!!!
+if(isset($_POST['login'])) {
         
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -37,8 +35,7 @@ if(isset($_POST['login'])) { //change to POST!!!
         $row = mysqli_fetch_assoc($result);
 
         // sets iduser as a session variable
-        $iduser = $row["iduser"];
-        $_SESSION['iduser'] = $iduser;
+        $_SESSION['iduser'] = $row["iduser"];;
 
         //sets username as a session variable
         $_SESSION['username'] = $username;
@@ -46,26 +43,32 @@ if(isset($_POST['login'])) { //change to POST!!!
     }
 
     else {
-        echo 'Your username or password is invalid';}
+        echo 'Your username or password is invalid';}       
 }
+
+mysqli_close($conn);
 ?>
 
-<h2>login</h2>
 
-<p>don't have an account? click <a href="/register.php">here</a> to create one!</p>
+<body>
 
-<div class="form">
-<form action="login.php" method="post"> <!-- change to post-->
-    <label for="username">username:</label><br>
-    <input type="text" name="username" id="username" placeholder="Type here..." required> 
-    <br>
-    <label for="password">password:</label><br>
-    <input type="password" name="password" id="password" placeholder="Type here..." required> 
-    <input type="submit" name="login" value="log in!">
-</form>
+<div class="content"> 
+    <h1>login page</h1>
+
+    <p>don't have an account? click <a href="/register.php">here</a> to create one!</p>
+
+    <div class="form">
+        <form action="login.php" method="post">
+            <label for="username">username:</label><br>
+            <input type="text" name="username" id="username" placeholder="Type here..." required> 
+            <br>
+            <label for="password">password:</label><br>
+            <input type="password" name="password" id="password" placeholder="Type here..." required> 
+            <input type="submit" name="login" value="log in!">
+        </form>
+    </div>
+
 </div>
-
-
 
 </body>
 </html>

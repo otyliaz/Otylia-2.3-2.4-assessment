@@ -18,6 +18,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #fff;
 }
 
 
@@ -74,7 +75,7 @@ li a, .dropbtn {
 }
 
 li a:hover, .dropdown:hover .dropbtn {
-  background-color: red;
+  background-color: #FCAA67;
 }
 
 li.dropdown {
@@ -84,7 +85,7 @@ li.dropdown {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #FFFFC7;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px #00000033;
   z-index: 1;
@@ -104,15 +105,25 @@ li.dropdown {
   display: block;
 }
 
-/**form { 
-  all: unset;
-} ****/ 
-
 .error {
   color: red;
   margin: 0; 
   padding: 0; 
 
+}
+
+.loop {
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  width: 500px;
+  border: 3px solid #AED7F4;
+  margin: 10px 0px;
+  margin-bottom: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  margin-left: 5%;
 }
 
 /*footer*/

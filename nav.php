@@ -2,7 +2,7 @@
 <header>
     <nav class="navbar">
         <div class="logo">
-            <a class="logo" href="/"><img id="logo" src="" alt="the logo here"></a>
+            <a class="logo" href="/"><img id="logo" src="/logo1.png" alt="the logo" height="50px" width= "50px"></a>
         </div>
         <ul class="nav_links">
             <li><a href="/">study</a></li>
