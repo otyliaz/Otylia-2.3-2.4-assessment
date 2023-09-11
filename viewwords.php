@@ -15,6 +15,7 @@ require_once("./includes/connlocal.inc");
 if (isset($_GET['idlist'])) {
 $idlist = $_GET['idlist'];
 
+//validate query
 $q_validate = "SELECT * FROM lists WHERE idlist = $idlist AND public = 1";
 $r_validate = @mysqli_query($conn, $q_validate);
 
@@ -48,6 +49,7 @@ else {
 <?php
 
 include_once("./includes/nav.php");
+//query to show the vocab words of the list
 $q_vocab="SELECT wordTL, translation, pronunciation FROM vocab WHERE idlist = $idlist"; 
 $r_vocab= @mysqli_query ($conn, $q_vocab);
 
@@ -59,6 +61,7 @@ mysqli_close($conn);
 <div class="content">
 
 <?php
+//if the list has vocab,
 if (mysqli_num_rows($r_vocab) > 0) {
     echo '<h2>' . $listname . ':</h2>';
 
@@ -77,6 +80,7 @@ if (mysqli_num_rows($r_vocab) > 0) {
 
     echo '</table>';}
 
+//if the list has no words,
 else {
 echo "<p>The person who made this list has no entries... Sorry! Come back another time.</p>";}
 ?>

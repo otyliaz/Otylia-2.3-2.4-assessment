@@ -23,6 +23,7 @@ require_once("./includes/connlocal.inc");
 
 $iduser = $_SESSION['iduser'];
 
+//when they click on a language
 if (isset($_GET['language'])) {
     //this $_get is from the url that it created
     
@@ -36,7 +37,8 @@ if (isset($_GET['language'])) {
     $r_select = @mysqli_query($conn, $q_select);
 
     $row1 = mysqli_fetch_assoc($r_select);
-
+    
+    //sets the user_lang as a session variable
     $_SESSION['iduser_lang'] = $row1['iduser_lang'];
 
     header("Location: addlist.php"); 
@@ -54,21 +56,24 @@ mysqli_close($conn);
 <div class="content">
 
     <?php echo "<h2>Welcome " . $_SESSION['username'] . "! This is your dashboard:</h2>" ;
+    
+    //if they have no languages
     if (mysqli_num_rows($result) == 0) {
         echo "<p>Looks like you haven't chosen any languages. Click the button below to get started!</p>";
         echo '<a class="button" href="/select.php">Get Started!</a>';
     }
     
+    //if they have languages
     else {
         echo "<p>Your languages:</p>";
         echo "<p>Click on the language that you want to edit.</p><br>";
     
         //select the languages of the user from the database and prints them out here. -->
         //the url when you click on the language is like using a form with "get"--->
-
         echo "<div class='container'>";
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { 
         echo "<div class='card'>";
+        //the link for the language
         echo "<a id='language' href='home.php?language=" . urlencode($row['language']) . "'>" . $row['language'] . "</a>\n" ;
         echo '<a class="button delete" href="/deletelanguage.php?language='. urlencode($row['language']) . '">Remove</a>';
         echo "</div>";}

@@ -23,7 +23,7 @@ require_once("./includes/connlocal.inc");
 
 $iduser = $_SESSION['iduser'];
 
-//gets all the public lists that are associated with the same languages that the user is learning, 
+//query that gets all the public lists that are associated with the same languages that the user is learning, 
 //but excludes lists created by the user themself.
 $query="SELECT lists.idlist, lists.listname, lists.level, languages.language
 FROM lists
@@ -42,6 +42,7 @@ $result= @mysqli_query ($conn, $query);
 <div class="content">
 <h2>Explore published lists in your favourite languages!</h2><br>
 <?php 
+//if there are results in the explore page,
 if (mysqli_num_rows($result) > 0) { 
     echo "<div class='container'>";
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -62,7 +63,8 @@ if (mysqli_num_rows($result) > 0) {
     echo '<div class="card" id="explore"><a id="list" href="/viewwords.php?idlist=' . $idlist . '"><p id="name">' . $row['listname'] . '</p>';
     echo '<p>' . $row['level'] . '</p>'; 
     echo '<p>'. $row['language']. '</p>';
-
+    
+    //echo the username of the user that made the list
     if ($result2){
         while ($row = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
     echo '<p style="font-style:italic;">By '. $row['username']. '</p></a></div>';}}
@@ -71,6 +73,7 @@ if (mysqli_num_rows($result) > 0) {
     echo "</div>";
 }
 
+//if there are not any lists
 else {
     echo '<p>No results found. Choose some more languages to see what other people have put out!</p>';
 }

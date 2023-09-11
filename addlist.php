@@ -20,17 +20,20 @@ if(!isset($_SESSION['iduser'])){
 include_once("./includes/nav.php");
 require_once("./includes/connlocal.inc");
 
-// select from user_languages where language = the language and user = the user
+//if the iduser_lang is not set, then redirect back to home.php
 if (isset($_SESSION['iduser_lang'])){
     $iduser_lang = $_SESSION['iduser_lang'];}
+
 else {
     header('Location: home.php');
     exit();
 }
 
+//select query
 $q_select="SELECT `idlist`, `listname`, `level`, `public` FROM lists WHERE iduser_lang = $iduser_lang"; 
 $r_select= @mysqli_query ($conn, $q_select);
 
+//if form is sumbitted, 
 if(isset($_POST['submit'])) {
     
     $name = $_POST['name'];
@@ -68,7 +71,7 @@ if(isset($_POST['submit'])) {
     //echo $query;
 }
 
-//select from table lists where the idlist=
+//get selected_language for display
 $selected_language = $_SESSION['selected_language'];
 ?>
 
@@ -76,6 +79,7 @@ $selected_language = $_SESSION['selected_language'];
 <div class="content">
 
 <?php 
+//if there are lists in the language,
 if (mysqli_num_rows($r_select) > 0) { 
     echo '<h2>Here are your lists for ' . $selected_language . ':</h2>';
 
@@ -86,6 +90,8 @@ if (mysqli_num_rows($r_select) > 0) {
     //the link for the lists
     echo '<div class="card" id="list"><a id="list" href="/addwords.php?idlist=' . $idlist . '"><p id="name">' . $row['listname'] . '</p>';
     echo '<p>' . $row['level'] . '</p>'; 
+
+    //public private checkbox
     echo "<div id='public-status'>";
     if ($row['public'] == 1) {
         echo '<p>Public</p> <i class="fa fa-unlock"></i>';} 
@@ -94,7 +100,7 @@ if (mysqli_num_rows($r_select) > 0) {
     //echo $row['public'];
     echo "</div>";
 
-    
+    //delete button
     echo '<a class="button delete" href="/deletelist.php?idlist=' . $idlist . '">Delete</a>';
     echo '</a></div>';} 
 
@@ -102,11 +108,12 @@ if (mysqli_num_rows($r_select) > 0) {
 
     echo '<br><h2>Or create a new list below!</h2>';
 }
+//if there are no lists
 else{
     echo "<h2>Looks like you don't have any " . $selected_language. " lists, create one below!</h2><br>";
 }
 ?>
-
+<!--the form to add a list-->
     <div class="form">
         <form action="addlist.php" method="post"> 
             <label for="name">Name of your vocabulary list:</label><br>

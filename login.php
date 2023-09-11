@@ -22,6 +22,7 @@ if(isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    //hash password
     $passworden = hash('sha256', $password);
 
     // if username matches password........
@@ -72,6 +73,7 @@ mysqli_close($conn);
 
     <p>Don't have an account? Click <a href="/register.php">here</a> to create one!</p>
 
+    <!--login form-->
     <div class="form">
         <form action="login.php" method="post">
             <label for="username">Username:</label><br>
@@ -80,6 +82,7 @@ mysqli_close($conn);
             <label for="password">Password:</label><br>
             <input type="password" name="password" id="password" placeholder="Type here..." required> 
             <?php if (isset($invalid)) {
+                //if error, print error
                 echo '<p class="error">' . $invalid . '</p><br>';}
             ?>
             <input type="submit" name="login" value="Log in!">

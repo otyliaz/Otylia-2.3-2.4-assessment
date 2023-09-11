@@ -4,16 +4,19 @@ if(!isset($_SESSION['iduser'])){
    header("Location: login.php");
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php
 require_once("./includes/connlocal.inc");
 
+//if the idlist is in the url
 if (isset($_GET['idlist'])) {
 $idlist = $_GET['idlist'];
 
 $iduser = $_SESSION['iduser'];
 
+//validation query, if they have access to this idlist or not
 $q_validate = "SELECT * FROM lists WHERE idlist = $idlist AND iduser_lang IN (
     SELECT iduser_lang FROM user_languages WHERE iduser = $iduser)";
 $r_validate = @mysqli_query($conn, $q_validate);
@@ -29,9 +32,11 @@ $q_list="SELECT listname FROM lists WHERE idlist = $idlist";
 $r_list= @mysqli_query ($conn, $q_list);
 
 $row1 = mysqli_fetch_array($r_list, MYSQLI_ASSOC);
-$listname = $row1['listname'];}
+$listname = $row1['listname'];
+}
 /////////////////////
 
+//if there is no id in the url
 else {
     header("Location: home.php");
 }
@@ -46,10 +51,12 @@ else {
 
 <?php
 include_once("./includes/nav.php");
+//select query
 $q_vocab="SELECT idword, wordTL, translation, pronunciation FROM vocab WHERE idlist = $idlist"; 
 $r_vocab= @mysqli_query ($conn, $q_vocab);
 
 //echo $idlist;
+//if form is submitted
 if(isset($_POST['submit'])) {
     
     $wordTL = $_POST['wordTL'];
@@ -66,7 +73,7 @@ if(isset($_POST['submit'])) {
 
         // execute the statement
         if (mysqli_stmt_execute($stmt)) {
-            // redirect
+            // redirect after submit
             header("Location: addwords.php?idlist=" . $idlist);
             exit();
 
@@ -93,6 +100,7 @@ mysqli_close($conn);
 <div class="content">
 
 <?php
+//if there are words in the lists,
 if (mysqli_num_rows($r_vocab) > 0) {
     echo '<h2>' . $listname . ':</h2>';
 
@@ -106,6 +114,7 @@ if (mysqli_num_rows($r_vocab) > 0) {
         echo '<td style="font-weight:bold;">' . $row['wordTL'] . '</td>';
         echo '<td>' . $row['pronunciation'] . '</td>';
         echo '<td>' . $row['translation'] . '</td>';
+        //delete button
         echo '<td><a class="button delete" id="delete-word" href="/deleteword.php?idword=' . $row['idword'] . '&idlist=' . $idlist . '">Delete</a></td>';        
 
         echo '</tr>';}
@@ -114,10 +123,11 @@ if (mysqli_num_rows($r_vocab) > 0) {
 
     echo '<br><h2>Add some more words below!</h2>';
 }
+//if there are no words in the list
 else {
     echo "<h2>You don't have anything in this list... Add some words to ". $listname."! </h2>";}
 ?>
-
+ <!--form-->
 <div class="form">
         <?php echo '<form action="addwords.php?idlist=' . $idlist . '" method="post">' ?>
             <label for="wordTL">Your word:</label><br>
@@ -126,7 +136,6 @@ else {
             <input type="text" name="translation" id="translation" placeholder="Type here..." required> <br>
             <label for="pronunciation">Pronunciation (optional):</label><br>
             <input type="text" name="pronunciation" id="pronunciation" placeholder="Type here..."> <br>
-            <!--<input type="hidden" name="idlist" value="<?php //echo $idlist; ?>">-->
             <input type="submit" name="submit" value="Go!">
         </form>
     </div>

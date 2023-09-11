@@ -13,10 +13,12 @@
 require_once("./includes/connlocal.inc");
 
 //var_dump($_SERVER['REQUEST_METHOD']);
+//if they submit the form,
 if(isset($_POST['register'])) {
     $name = $_POST['name'];
     $password = $_POST['password'];
 
+    //query
     $select = "SELECT `username` FROM users WHERE `username` = ?";
     
     if ($stmt = mysqli_prepare($conn, $select)) {
@@ -45,7 +47,7 @@ if(isset($_POST['register'])) {
                     mysqli_stmt_bind_param($stmt2, "ss", $name, $passworden);
                     mysqli_stmt_execute($stmt2);
 
-                    //redirecct to login
+                    //redirect to login after registering
                     header("Location: login.php");
                     exit();
                 }
@@ -74,6 +76,8 @@ mysqli_close($conn);
 <h2>Sign up!</h2>
 
 <p>Already have an account? Click <a href="/login.php">here</a> to login.</p>
+
+<!--form-->
     <div class="form">
         <form action="register.php" method="post"> 
             <label for="name">Username:</label><br>
