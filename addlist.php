@@ -4,25 +4,29 @@ if(!isset($_SESSION['iduser'])){
    header("Location: login.php");
 }
 ?>
-<!--remember TO SANITIZE INPUTS-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>  
-    <title>Add list - Vocable</title>
+    <title>Home - Vocable</title>
     <meta charset="UTF-16" name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="./includes/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="./includes/favicon.png">
+
 </head>
 
 <?php
-include_once("nav.php");
-//ADD require_once("connect.inc");
-
-require_once("connlocal.inc");
+include_once("./includes/nav.php");
+require_once("./includes/connlocal.inc");
 
 // select from user_languages where language = the language and user = the user
-$iduser_lang = $_SESSION['iduser_lang'];
+if (isset($_SESSION['iduser_lang'])){
+    $iduser_lang = $_SESSION['iduser_lang'];}
+else {
+    header('Location: home.php');
+    exit();
+}
 
 $q_select="SELECT `idlist`, `listname`, `level`, `public` FROM lists WHERE iduser_lang = $iduser_lang"; 
 $r_select= @mysqli_query ($conn, $q_select);

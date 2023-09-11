@@ -5,8 +5,7 @@ if(!isset($_SESSION['iduser'])){
     exit();
  }
 
-//###require_once("connect.inc");
-require_once("connlocal.inc");
+require_once("./includes/connlocal.inc");
 
 if (isset($_GET['idword'])) {
     //from the URL

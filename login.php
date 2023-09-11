@@ -5,15 +5,16 @@ session_start()
 <!DOCTYPE html>
 <html lang="en">
 <head>  
-    <title>Log in page - Vocable</title>
+    <title>Home - Vocable</title>
     <meta charset="UTF-16" name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" type="text/css" href="./includes/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/png" href="./includes/favicon.png">
+
 </head>
 
-<?php 
-//#####require_once("connect.inc");
-require_once("connlocal.inc");
+<?php
+require_once("./includes/connlocal.inc");
 
 //var_dump($_SERVER['REQUEST_METHOD']);
 if(isset($_POST['login'])) {

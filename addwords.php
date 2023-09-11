@@ -7,8 +7,7 @@ if(!isset($_SESSION['iduser'])){
 <!DOCTYPE html>
 <html lang="en">
 <?php
-// ADD: require_once("connect.inc");
-require_once("connlocal.inc");
+require_once("./includes/connlocal.inc");
 
 if (isset($_GET['idlist'])) {
 $idlist = $_GET['idlist'];
@@ -42,11 +41,11 @@ else {
     <meta charset="UTF-16" name="+viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="./includes/favicon.png">
 </head>
 
 <?php
-include_once("nav.php");
+include_once("/.includes/nav.php");
 $q_vocab="SELECT idword, wordTL, translation, pronunciation FROM vocab WHERE idlist = $idlist"; 
 $r_vocab= @mysqli_query ($conn, $q_vocab);
 

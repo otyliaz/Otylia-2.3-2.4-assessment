@@ -6,22 +6,20 @@ if(!isset($_SESSION['iduser'])){
 }
 ?>
 
-<!--DO put things into folders-->
 <!DOCTYPE html>
 <html lang="en">
 <head>  
     <title>Home - Vocable</title>
     <meta charset="UTF-16" name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="./includes/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="./includes/favicon.png">
 
 </head>
 
 <?php
-include_once("nav.php");
-//###require_once("connect.inc");
-require_once("connlocal.inc");
+include_once("./includes/nav.php");
+require_once("./includes/connlocal.inc");
 
 $iduser = $_SESSION['iduser'];
 
@@ -75,8 +73,6 @@ mysqli_close($conn);
         echo "</div>";}
 
         echo "</div>";
-
-        //DO need to make it look cool, like cards-->
     
         echo '<br><a class="button" href="/select.php">Add another language!</a>';
     }
