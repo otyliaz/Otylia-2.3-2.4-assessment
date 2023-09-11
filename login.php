@@ -5,10 +5,10 @@ session_start()
 <!DOCTYPE html>
 <html lang="en">
 <head>  
-    <title>login page</title>
+    <title>Log in page - Vocable</title>
     <meta charset="UTF-16" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
-
+    <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 
 <?php 
@@ -43,7 +43,7 @@ if(isset($_POST['login'])) {
     }
 
     else {
-        echo 'Your username or password is invalid';}       
+        $invalid = 'Your username or password is invalid. Please try again.';}       
 }
 
 mysqli_close($conn);
@@ -53,22 +53,29 @@ mysqli_close($conn);
 <body>
 
 <div class="content"> 
-    <h1>login page</h1>
+    <h1>Log in!</h1>
 
-    <p>don't have an account? click <a href="/register.php">here</a> to create one!</p>
+    <p>Don't have an account? Click <a href="/register.php">here</a> to create one!</p>
 
     <div class="form">
         <form action="login.php" method="post">
-            <label for="username">username:</label><br>
+            <label for="username">Username:</label><br>
             <input type="text" name="username" id="username" placeholder="Type here..." required> 
             <br>
-            <label for="password">password:</label><br>
+            <label for="password">Password:</label><br>
             <input type="password" name="password" id="password" placeholder="Type here..." required> 
-            <input type="submit" name="login" value="log in!">
+            <?php if (isset($invalid)) {
+                echo '<p class="error">' . $invalid . '</p><br>';}
+            ?>
+            <input type="submit" name="login" value="Log in!">
         </form>
     </div>
 
 </div>
+
+<footer>
+    <p>&copy; Vocable by Otylia 2023</p>
+</footer>
 
 </body>
 </html>
