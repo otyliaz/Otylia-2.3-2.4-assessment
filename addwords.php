@@ -39,13 +39,13 @@ else {
 <head>  
     <?php echo '<title> View ' . $listname . ' - Vocable</title>'?>
     <meta charset="UTF-16" name="+viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="./includes/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/png" href="./includes/favicon.png">
 </head>
 
 <?php
-include_once("/.includes/nav.php");
+include_once("./includes/nav.php");
 $q_vocab="SELECT idword, wordTL, translation, pronunciation FROM vocab WHERE idlist = $idlist"; 
 $r_vocab= @mysqli_query ($conn, $q_vocab);
 
@@ -56,13 +56,31 @@ if(isset($_POST['submit'])) {
     $translation = $_POST['translation'];
     $pronunciation = $_POST['pronunciation'];
 
-    $query="INSERT INTO `vocab` (`idlist`, `wordTL`, `translation`, `pronunciation`) VALUES ('$idlist','$wordTL', '$translation', '$pronunciation')";
+    $query = "INSERT INTO vocab (`idlist`, `wordTL`, `translation`, `pronunciation`) VALUES (?, ?, ?, ?)";
     
-    $inserted= @mysqli_query ($conn, $query);
+    if ($stmt = mysqli_prepare($conn, $query)) {
 
-    header("Location: addwords.php?idlist=" . $idlist);
-    exit();
+        // bind variables to the prepared statement as parameters
+        // "isss" = integer string string string
+        mysqli_stmt_bind_param($stmt, "isss", $idlist, $wordTL, $translation, $pronunciation);
 
+        // execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            // redirect
+            header("Location: addwords.php?idlist=" . $idlist);
+            exit();
+
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
+
+        // close statement
+        mysqli_stmt_close($stmt);
+    } 
+    
+    else {
+        echo "Error: " . mysqli_error($conn);
+    }
     //echo $_SESSION['iduser_lang'] ; 
     //echo $query;
 }
@@ -85,7 +103,7 @@ if (mysqli_num_rows($r_vocab) > 0) {
     while ($row = mysqli_fetch_array($r_vocab, MYSQLI_ASSOC)) {
 
         echo '<tr>';
-        echo '<td>' . $row['wordTL'] . '</td>';
+        echo '<td style="font-weight:bold;">' . $row['wordTL'] . '</td>';
         echo '<td>' . $row['pronunciation'] . '</td>';
         echo '<td>' . $row['translation'] . '</td>';
         echo '<td><a class="button delete" id="delete-word" href="/deleteword.php?idword=' . $row['idword'] . '&idlist=' . $idlist . '">Delete</a></td>';        

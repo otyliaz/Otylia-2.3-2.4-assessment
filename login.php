@@ -24,27 +24,41 @@ if(isset($_POST['login'])) {
 
     $passworden = hash('sha256', $password);
 
-    // if username matches password, make a session
-    $query = "SELECT iduser FROM users WHERE username = '$username' and password = '$passworden' ";
+    // if username matches password........
+    $query = "SELECT iduser FROM users WHERE username = ? and password = ? ";
 
-    $result= @mysqli_query ($conn, $query);
+    if ($stmt = mysqli_prepare($conn, $query)) {
+        //bind parameters
+        mysqli_stmt_bind_param($stmt, "ss", $username, $passworden);
+        mysqli_stmt_execute($stmt);
+        
+        //store the result
+        mysqli_stmt_store_result($stmt);
 
-    if (mysqli_num_rows($result) == 1) {
-        echo $username . ', you are logged in.';
+        if (mysqli_stmt_num_rows($stmt) == 1) {
+            echo $username . ', you are logged in.';
+            
+            //fetch results
+            mysqli_stmt_bind_result($stmt, $iduser);
+            mysqli_stmt_fetch($stmt);
 
-        //fetches the results from the query
-        $row = mysqli_fetch_assoc($result);
+            //set iduser as a session variable
+            $_SESSION['iduser'] = $iduser;
+            
+            //set username as a session variable
+            $_SESSION['username'] = $username;
+            header("Location: home.php");
+        } 
 
-        // sets iduser as a session variable
-        $_SESSION['iduser'] = $row["iduser"];;
+        else {
+            $invalid = 'Your username or password is invalid. Please try again.';}
 
-        //sets username as a session variable
-        $_SESSION['username'] = $username;
-        header("Location: home.php");
-    }
-
+        //close the statement
+        mysqli_stmt_close($stmt);
+    } 
     else {
-        $invalid = 'Your username or password is invalid. Please try again.';}       
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 
 mysqli_close($conn);
@@ -53,8 +67,8 @@ mysqli_close($conn);
 
 <body>
 
-<div class="content"> 
-    <h1>Log in!</h1>
+<div class="content login"> 
+    <h2>Log in!</h2>
 
     <p>Don't have an account? Click <a href="/register.php">here</a> to create one!</p>
 

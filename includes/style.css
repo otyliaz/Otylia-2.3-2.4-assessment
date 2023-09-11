@@ -26,6 +26,11 @@ body {
     padding-bottom: 2rem;
     padding: 50px;
     padding-top: 2rem;
+    margin-top: 60px;
+}
+
+.content.login {
+  margin-top: 0;
 }
 
 /*nav bar -----------------------------------------------*/
@@ -45,6 +50,10 @@ nav {
     align-items: center;
     justify-content: space-between;
     background-color: #AED7F4;
+    position: fixed; /* Add this line */
+    top: 0; /* Add this line to make it stick to the top */
+    width: 100%; /* Add this line to make it full-width */
+    z-index: 2;
 }
 
 .menu li:hover {
@@ -99,7 +108,7 @@ li.dropdown {
 }
 
 .fa.fa-user-circle {
-  margin-right: 5px;
+  margin-right: 8px;
 }
 
 #dropdown:hover{
@@ -152,6 +161,8 @@ h2 {
   font-weight: lighter;
 }
 
+p a {color: #c03cb7;}
+
 /*home page -----------------------------------*/
 .container {
   display: flex;
@@ -168,7 +179,7 @@ h2 {
   padding: 20px;
   border-radius: 10px;
   min-width: 15%;
-  height: 120px;
+  height: 110px;
   text-align: center;
   position: relative;
 }
@@ -195,8 +206,9 @@ h2 {
   margin: 0;
 }
 
-.delete:hover {
+.button.delete:hover {
   box-shadow: 0 0 5px 0 #000000d0;
+  background-color: #e04c4c;
 }
 /*---------------------------------------------*/
 /*displaying the lists--------------------------*/
@@ -311,7 +323,7 @@ h2 {
 }
 
 .vocab-table tr:nth-child(even) {
-  background-color: #FFFFC7;
+  background-color: #f4f4b6;
 }
 
 .vocab-table tr:nth-child(odd) {
@@ -319,7 +331,7 @@ h2 {
 }
 
 .vocab-table tr:hover {
-  background-color: #b5cbda;
+  background-color: #b5d0da;
 }
 /*--------------------------------*/
 
@@ -365,6 +377,14 @@ footer p {
 
 
 /*media queries */
+
+
+@media (max-width: 380px) {
+  .card {
+    width: 90%;
+  }
+ }
+
 @media (max-width: 768px) {
   .menu {
      display:none;
@@ -409,4 +429,5 @@ footer p {
     .vocab-table {
       width: 100%;
     }
+    
  }

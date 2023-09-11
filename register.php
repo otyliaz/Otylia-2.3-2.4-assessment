@@ -10,48 +10,59 @@
 </head>
 
 <?php
-include_once("./includes/nav.php");
 require_once("./includes/connlocal.inc");
 
 //var_dump($_SERVER['REQUEST_METHOD']);
 if(isset($_POST['register'])) {
-
     $name = $_POST['name'];
     $password = $_POST['password'];
 
-    $select = "SELECT `username` FROM users WHERE `username`= '$name'";
-    //result 
-    $r1= mysqli_query ($conn, $select);
+    $select = "SELECT `username` FROM users WHERE `username` = ?";
+    
+    if ($stmt = mysqli_prepare($conn, $select)) {
 
-    //if there is already that username in the database,
-    if (mysqli_num_rows($r1) > 0) {
-        $nametaken = 'This username is already taken. Please choose another one.';}    
-        
-    else {
-        //echo 'username is unique.';
-    
-        if($_POST['password']==$_POST['confirm'] ) {
-            // echo '<p>passwords match</p>' ;
-    
+        // bind parameters
+        mysqli_stmt_bind_param($stmt, "s", $name);
+        mysqli_stmt_execute($stmt);
+
+        // store the result
+        mysqli_stmt_store_result($stmt);
+
+        //check if username already exists
+        if (mysqli_stmt_num_rows($stmt) > 0) {
+            $nametaken = 'This username is already taken. Please choose another one.';
+        } 
+        else {
+            if ($_POST['password'] == $_POST['confirm']) {
+                // hash the password
                 $passworden = hash('sha256', $password);
-    
-                $query="INSERT INTO `users` (`username`, `password`) VALUES ('$name', '$passworden')"; 
-                $result= @mysqli_query ($conn, $query);
-    
-                header("Location: login.php");
-    
-                //echo $query;
-                //var_dump($result);
-                //if ($result) {
-                //    echo '<p>added :)</p>' ;}
-                //else {
-                //    echo "<p>didn't work :(</p>";} 
+
+                $query = "INSERT INTO `users` (`username`, `password`) VALUES (?, ?)";
+
+                if ($stmt2 = mysqli_prepare($conn, $query)) {
+
+                    //bind parameters
+                    mysqli_stmt_bind_param($stmt2, "ss", $name, $passworden);
+                    mysqli_stmt_execute($stmt2);
+
+                    //redirecct to login
+                    header("Location: login.php");
+                    exit();
                 }
-    
+                else {
+                    echo "Error: " . mysqli_error($conn);
+                }
+            } 
             else {
                 $confirmerror = "Your passwords don't match, please try again.";
-                }
+            }
         }
+        //close the statement
+        mysqli_stmt_close($stmt);
+    } 
+    else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 
 mysqli_close($conn);
@@ -59,7 +70,7 @@ mysqli_close($conn);
 
 <body>
 
-<div class="content">
+<div class="content login">
 <h2>Sign up!</h2>
 
 <p>Already have an account? Click <a href="/login.php">here</a> to login.</p>

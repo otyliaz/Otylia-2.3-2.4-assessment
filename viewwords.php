@@ -69,7 +69,7 @@ if (mysqli_num_rows($r_vocab) > 0) {
     while ($row = mysqli_fetch_array($r_vocab, MYSQLI_ASSOC)) {
 
         echo '<tr>';
-        echo '<td>' . $row['wordTL'] . '</td>';
+        echo '<td style="font-weight:bold;">' . $row['wordTL'] . '</td>';
         echo '<td>' . $row['pronunciation'] . '</td>';
         echo '<td>' . $row['translation'] . '</td>';
 

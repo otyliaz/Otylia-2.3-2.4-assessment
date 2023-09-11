@@ -35,15 +35,34 @@ if(isset($_POST['submit'])) {
     
     $name = $_POST['name'];
     $level = $_POST['level'];
-    $public = $_POST['public'];
+    $public = isset($_POST['public']) ? 1 : 0;
+    //if the checkbox is checked, then return 1, if not checked then return 0
 
-    $query="INSERT INTO `lists` (`listname`, `iduser_lang`, `level`, `public`) VALUES ('$name', '$iduser_lang', '$level', '$public')";
+    $query="INSERT INTO `lists` (`listname`, `iduser_lang`, `level`, `public`) VALUES (?,?,?,?)";
     
-    $inserted= @mysqli_query ($conn, $query);
+    if ($stmt = mysqli_prepare($conn, $query)) {
 
-    //redirects it back to the page after submission so it will show the list
-    header("Location: addlist.php");
-    exit();
+        // bind variables to the prepared statement as parameters
+        // "sisi" = string integer string integer 
+        mysqli_stmt_bind_param($stmt, "sisi", $name, $iduser_lang, $level, $public);
+
+        // execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            //redirects it back to the page after submission so it will show the list
+            header("Location: addlist.php");
+            exit();
+        } 
+        else {
+            echo "Error: " . mysqli_error($conn);
+        }
+
+        // close statement
+        mysqli_stmt_close($stmt);
+    } 
+    
+    else {
+        echo "Error: " . mysqli_error($conn);
+    }
 
     //echo $_SESSION['iduser_lang'] ; 
     //echo $query;

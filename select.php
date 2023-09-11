@@ -31,29 +31,24 @@ if(isset($_GET['submit']))  {
 
     $q_idlanguage = "SELECT `idlanguage` FROM languages WHERE `language` = '$language'";
     $r_idlanguage = @mysqli_query($conn, $q_idlanguage);
-    
-    $q_check = "SELECT * FROM user_languages WHERE idlanguage = '$idlanguage'";
-    $r_check = @mysqli_query($conn, $q_check);
 
-    if (mysqli_num_rows($r_check) > 0) {
-        $taken= 'You already learn this language! Choose another one.';
-    }
-    
-    else {
+    if ($r_idlanguage && $row = mysqli_fetch_assoc($r_idlanguage)) {
+        $idlanguage = $row['idlanguage'];
 
-        if ($r_idlanguage && $row = mysqli_fetch_assoc($r_idlanguage)) { 
-            $idlanguage = $row['idlanguage'];
-            $insert="INSERT INTO `user_languages` (`iduser`, `idlanguage`) VALUES ('$iduser', '$idlanguage')";
+        //check if the user is already learning this language
+        $q_check = "SELECT * FROM user_languages WHERE idlanguage = '$idlanguage' AND iduser = '$iduser'";
+        $r_check = @mysqli_query($conn, $q_check);
 
-            $inserted= @mysqli_query ($conn, $insert);
+        if (mysqli_num_rows($r_check) > 0) {
+            $taken = 'You are already learning this language! Choose another one.';
+        } else {
+            $insert = "INSERT INTO `user_languages` (`iduser`, `idlanguage`) VALUES ('$iduser', '$idlanguage')";
+            $inserted = @mysqli_query($conn, $insert);
 
             header("Location: home.php");
-        } 
-
-        else {
-            $errormsg = 'Sorry, there was an error. Please try again!';
         }
-
+    } else {
+        $errormsg = 'Sorry, there was an error. Please try again!';
     }
 }
 
@@ -62,10 +57,10 @@ mysqli_close($conn);
 
 <body>
 <div class="content">
-<?php if (isset($errormsg)) {
-        echo '<p class="error">' . $errormsg . '</p>';}
-    ?>
-    <h2>Choose a language from the list to add to your dashboard!</h2>
+    <?php if (isset($errormsg)) {
+        echo '<p class="error">' . $errormsg . '</p>';
+    } ?>
+    <h2>Start typing to find a language from the list to add to your dashboard!</h2>
     <div class="form" id="select">
     <form action="select.php" method="get">
         <input type="text" list="languages" name="languages" placeholder="Type here...">
@@ -75,6 +70,9 @@ mysqli_close($conn);
             echo ' <option value="' . $row['language'] . '">'   ;}
             ?>
             </datalist>
+    <?php if (isset($taken)) {
+        echo '<p class="error">' . $taken . '</p><br>';
+    } ?>
         <input type="submit"  name="submit" value="Go!"> 
     </form>
     </div>

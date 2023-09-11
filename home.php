@@ -58,9 +58,10 @@ mysqli_close($conn);
         echo "<p>Looks like you haven't chosen any languages. Click the button below to get started!</p>";
         echo '<a class="button" href="/select.php">Get Started!</a>';
     }
-
+    
     else {
-        echo "<p>Your languages:</p><br>";
+        echo "<p>Your languages:</p>";
+        echo "<p>Click on the language that you want to edit.</p><br>";
     
         //select the languages of the user from the database and prints them out here. -->
         //the url when you click on the language is like using a form with "get"--->
